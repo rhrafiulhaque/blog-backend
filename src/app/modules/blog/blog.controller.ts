@@ -8,14 +8,13 @@ const createBlog = catchAsync(async (req, res, next) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: "Blog Created Successfull",
+    message: "Blog created successfully",
     data: result,
   });
 });
 
 const getAllBlog = catchAsync(async (req, res, next) => {
-  console.log(req.cookies);
-  const result = await blogServices.getAllBlogFromDB();
+  const result = await blogServices.getAllBlogFromDB(req.query);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
@@ -24,7 +23,44 @@ const getAllBlog = catchAsync(async (req, res, next) => {
   });
 });
 
+const updateBlogById = catchAsync(async (req, res, next) => {
+  const { blogId } = req.params;
+  const userId = req.user.id;
+  const updatedData = req.body;
+
+  const result = await blogServices.updateBlogByIdToDB(
+    blogId,
+    userId,
+    updatedData
+  );
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Blog Updated Successfull",
+    data: result,
+  });
+});
+const deleteBlogById = catchAsync(async (req, res, next) => {
+  const { blogId } = req.params;
+  const userId = req.user.id;
+  const userRole = req.user.role;
+
+  const result = await blogServices.deleteBlogByIdFromDB(
+    userId,
+    blogId,
+    userRole
+  );
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Blog Deleted Successfull",
+    data: result,
+  });
+});
+
 export const blogControllers = {
   createBlog,
   getAllBlog,
+  updateBlogById,
+  deleteBlogById,
 };

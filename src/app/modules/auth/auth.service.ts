@@ -8,7 +8,9 @@ import { User } from "../user/user.model";
 import { TLoginUser } from "./auth.interface";
 
 const loginUserIntoDB = async (payload: TLoginUser) => {
-  const userExist = await User.findOne({ email: payload.email });
+  const userExist = await User.findOne({ email: payload.email }).select(
+    "+password"
+  );
   if (!userExist) {
     throw new AppError(httpStatus.NOT_FOUND, "Email Not Found");
   }

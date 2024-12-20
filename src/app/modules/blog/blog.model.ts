@@ -24,6 +24,7 @@ const blogSchema = new Schema<TBlog>(
   },
   {
     timestamps: true,
+    strict: true,
   }
 );
 

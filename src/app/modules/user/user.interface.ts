@@ -6,6 +6,15 @@ export type TUser = {
   isBlocked: boolean;
 };
 
+export type TUserToken = {
+  _id: string;
+  name: string;
+  email: string;
+  password: string;
+  role: "admin" | "user";
+  isBlocked: boolean;
+};
+
 export const USER_ROLE = {
   user: "user",
   admin: "admin",
