@@ -1,3 +1,4 @@
+import cookieParser from "cookie-parser";
 import cors from "cors";
 import express, { Application } from "express";
 import globalErrorHandler from "./app/middlware/globalErrorHandler";
@@ -11,8 +12,9 @@ app.use(cors());
 //parser
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
-app.use("/api/v1", router);
+app.use("/api", router);
 
 //Testing
 app.get("/", (req, res) => {
