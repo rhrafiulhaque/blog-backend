@@ -1,3 +1,5 @@
+import { Types } from "mongoose";
+
 export type TUser = {
   name: string;
   email: string;
@@ -7,7 +9,7 @@ export type TUser = {
 };
 
 export type TUserToken = {
-  _id: string;
+  _id: Types.ObjectId;
   name: string;
   email: string;
   password: string;

@@ -5,6 +5,7 @@ import config from "../../config";
 import AppError from "../errors/AppError";
 import { TUserRole } from "../modules/user/user.interface";
 import { User } from "../modules/user/user.model";
+
 const auth = (...requiredRoles: TUserRole[]) => {
   return async (req: Request, res: Response, next: NextFunction) => {
     const token = req.headers.authorization;
@@ -13,10 +14,20 @@ const auth = (...requiredRoles: TUserRole[]) => {
       return next(new AppError(httpStatus.UNAUTHORIZED, "Please Login First"));
     }
 
-    const decoded = jwt.verify(
-      token,
-      config.jwt_access_secret as string
-    ) as JwtPayload;
+    let decoded: JwtPayload;
+    try {
+      decoded = jwt.verify(
+        token,
+        config.jwt_access_secret as string
+      ) as JwtPayload;
+    } catch (err: any) {
+      if (err.name === "TokenExpiredError") {
+        return next(
+          new AppError(httpStatus.UNAUTHORIZED, "JWT Token has expired")
+        );
+      }
+      return next(new AppError(httpStatus.UNAUTHORIZED, "Invalid Token"));
+    }
 
     const role = decoded.role;
 
