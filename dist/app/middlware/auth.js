@@ -19,7 +19,8 @@ const AppError_1 = __importDefault(require("../errors/AppError"));
 const user_model_1 = require("../modules/user/user.model");
 const auth = (...requiredRoles) => {
     return (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-        const token = req.headers.authorization;
+        const tokenWitBearer = req.headers.authorization;
+        const token = tokenWitBearer === null || tokenWitBearer === void 0 ? void 0 : tokenWitBearer.split(" ")[1];
         if (!token) {
             return next(new AppError_1.default(http_status_1.default.UNAUTHORIZED, "Please Login First"));
         }

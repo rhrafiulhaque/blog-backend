@@ -1,3 +1,4 @@
+import httpStatus from "http-status";
 import AppError from "../../errors/AppError";
 import { TUser } from "./user.interface";
 import { User } from "./user.model";

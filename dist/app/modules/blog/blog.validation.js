@@ -6,7 +6,6 @@ exports.blogValidationSchemaZod = zod_1.z.object({
     body: zod_1.z.object({
         title: zod_1.z.string(),
         content: zod_1.z.string(),
-        author: zod_1.z.string(),
         isPublished: zod_1.z.boolean().default(true),
     }),
 });

@@ -18,7 +18,9 @@ const catchAsync_1 = __importDefault(require("../../utils/catchAsync"));
 const sendResponse_1 = __importDefault(require("../../utils/sendResponse"));
 const blog_service_1 = require("./blog.service");
 const createBlog = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield blog_service_1.blogServices.createBlogIntoDb(req.body);
+    const { id } = req.user;
+    const blog = Object.assign(Object.assign({}, req.body), { author: id });
+    const result = yield blog_service_1.blogServices.createBlogIntoDb(blog);
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,

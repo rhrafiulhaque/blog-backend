@@ -8,7 +8,8 @@ import { User } from "../modules/user/user.model";
 
 const auth = (...requiredRoles: TUserRole[]) => {
   return async (req: Request, res: Response, next: NextFunction) => {
-    const token = req.headers.authorization;
+    const tokenWitBearer = req.headers.authorization;
+    const token = tokenWitBearer?.split(" ")[1];
 
     if (!token) {
       return next(new AppError(httpStatus.UNAUTHORIZED, "Please Login First"));
